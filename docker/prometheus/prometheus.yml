@@ -1,0 +1,64 @@
+global:
+  scrape_interval: 2s
+  evaluation_interval: 2s
+
+scrape_configs:
+  - job_name: 'api-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9000'] ## only for demo purposes don't use host.docker.internal in production
+
+  - job_name: 'service-discovery'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8761' ] ## only for demo purposes don't use host.docker.internal in production
+
+  - job_name: 'config-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8084' ] ## only for demo purposes don't use host.docker.internal in production
+
+  - job_name: 'product-service'
+    metrics_path: '/actuator/prometheus'
+    eureka_sd_configs:
+      - server: 'http://host.docker.internal:8761/eureka'
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [ __meta_eureka_app_name ]
+        regex: PRODUCT-SERVICE
+        action: keep
+
+  - job_name: 'order-service'
+    metrics_path: '/actuator/prometheus'
+    eureka_sd_configs:
+      - server: 'http://host.docker.internal:8761/eureka'
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [ __meta_eureka_app_name ]
+        regex: ORDER-SERVICE
+        action: keep
+
+  - job_name: 'inventory-service'
+    metrics_path: '/actuator/prometheus'
+    eureka_sd_configs:
+      - server: 'http://host.docker.internal:8761/eureka'
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [ __meta_eureka_app_name ]
+        regex: INVENTORY-SERVICE
+        action: keep
+
+  - job_name: 'auth-service'
+    metrics_path: '/actuator/prometheus'
+    eureka_sd_configs:
+      - server: 'http://host.docker.internal:8761/eureka'
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [ __meta_eureka_app_name ]
+        regex: AUTH-SERVICE
+        action: keep
+
+  - job_name: 'notification-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8086' ] ## only for demo purposes don't use host.docker.internal in production
