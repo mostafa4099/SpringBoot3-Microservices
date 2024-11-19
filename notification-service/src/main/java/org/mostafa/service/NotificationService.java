@@ -20,27 +20,28 @@ public class NotificationService {
     private final JavaMailSender javaMailSender;
 
     public void send(OrderPlaceEventModel eventModel) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("mostafa.sna@gmail.com");
-            messageHelper.setTo(eventModel.getEmail());
-            messageHelper.setSubject(String.format("Your Order with OrderNumber %s is placed successfully", eventModel.getOrderNumber()));
-            messageHelper.setText("""
-                    Hi Mr. X
+//        MimeMessagePreparator messagePreparator = mimeMessage -> {
+//            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+//            messageHelper.setFrom("mostafa.sna@gmail.com");
+//            messageHelper.setTo(eventModel.getEmail());
+//            messageHelper.setSubject(String.format("Your Order with OrderNumber %s is placed successfully", eventModel.getOrderNumber()));
+//            messageHelper.setText("""
+//                    Hi Mr. X
+//
+//                    Your order with order number %s is now placed successfully.
+//
+//                    Best Regards
+//                    Spring Shop
+//                    """, eventModel.getOrderNumber());
+//        };
+//        try {
+//            javaMailSender.send(messagePreparator);
+//            log.info("Order Notifcation email sent!!");
+//        } catch (MailException e) {
+//            log.error("Exception occurred when sending mail", e);
+//            throw new RuntimeException("Exception occurred when sending mail to springshop@email.com", e);
+//        }
 
-                    Your order with order number %s is now placed successfully.
-                    
-                    Best Regards
-                    Spring Shop
-                    """, eventModel.getOrderNumber());
-        };
-        try {
-            javaMailSender.send(messagePreparator);
-            log.info("Order Notifcation email sent!!");
-        } catch (MailException e) {
-            log.error("Exception occurred when sending mail", e);
-            throw new RuntimeException("Exception occurred when sending mail to springshop@email.com", e);
-        }
-
+        log.info(eventModel.getOrderNumber());
     }
 }

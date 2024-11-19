@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(
-                                new AntPathRequestMatcher("/api/auth/**")
+                                new AntPathRequestMatcher("/api/auth/**"),
+                                new AntPathRequestMatcher("/actuator/**")
                         )
                         .permitAll()
                         .anyRequest().authenticated())
